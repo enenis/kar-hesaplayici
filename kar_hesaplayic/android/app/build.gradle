@@ -53,15 +53,22 @@ android {
 
     signingConfigs {
         release {
-            // TODO: Yayın (release) imzalama için kendi keystore bilgilerinizi girin.
-            // Şimdilik debug imzasıyla derlenebilmesi için release, debug config'i kullanıyor.
+            def keystoreProperties = new Properties()
+            def keystorePropertiesFile = rootProject.file('key.properties')
+            if (keystorePropertiesFile.exists()) {
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                storeFile = file(keystoreProperties['storeFile'])
+                storePassword = keystoreProperties['storePassword']
+                keyAlias = keystoreProperties['keyAlias']
+                keyPassword = keystoreProperties['keyPassword']
+            }
         }
     }
 
     buildTypes {
         release {
-            // TODO: Gerçek yayın öncesi kendi release imzanızı tanımlayıp burada kullanın.
-            signingConfig signingConfigs.debug
+            // Artık debug yerine otomatik oluşturulacak release imzasını kullanacak
+            signingConfig signingConfigs.release
             minifyEnabled false
             shrinkResources false
         }
