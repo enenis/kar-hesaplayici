@@ -43,7 +43,7 @@ jobs:
           echo "storePassword=mysecretpassword" > android/key.properties
           echo "keyPassword=mysecretpassword" >> android/key.properties
           echo "keyAlias=mykeyalias" >> android/key.properties
-          echo "storeFile=app/upload-keystore.jks" >> android/key.properties
+          echo "storeFile=upload-keystore.jks" >> android/key.properties
 
       - name: Install dependencies
         run: flutter pub get
