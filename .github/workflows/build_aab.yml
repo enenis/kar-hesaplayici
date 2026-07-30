@@ -1,57 +1,22 @@
-name: Flutter Build Signed AAB
+name: Generate Permanent Keystore Base64
 
 on:
-  push:
-    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
-  build:
+  generate:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: kar_hesaplayic
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
-
-      # Sabit tohumlama (seed) ile her zaman aynı anahtarı üreten adım
-      - name: Generate Fixed Keystore
+      - name: Generate Keystore & Print Base64
         run: |
           keytool -genkeypair -alias mykeyalias -keyalg RSA -keysize 2048 -validity 10000 \
-            -keystore android/app/upload-keystore.jks \
-            -storepass mysecretpassword -keypass mysecretpassword \
+            -keystore upload-keystore.jks \
+            -storepass 12345678 -keypass 12345678 \
             -dname "CN=Developer, OU=Dev, O=App, L=City, S=State, C=TR"
-
-      - name: Create key.properties
-        run: |
-          echo "storePassword=mysecretpassword" > android/key.properties
-          echo "keyPassword=mysecretpassword" >> android/key.properties
-          echo "keyAlias=mykeyalias" >> android/key.properties
-          echo "storeFile=upload-keystore.jks" >> android/key.properties
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Build Android App Bundle (AAB)
-        run: flutter build appbundle --release --no-pub --android-skip-build-dependency-validation
-
-      - name: Upload AAB Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release-aab
-          path: kar_hesaplayic/build/app/outputs/bundle/release/app-release.aab
+          
+          echo "=========================================="
+          echo "AŞAĞIDAKİ METNİ KOPYALA VE SECRETS'A EKLE:"
+          echo "=========================================="
+          base64 -w 0 upload-keystore.jks
+          echo ""
+          echo "=========================================="
