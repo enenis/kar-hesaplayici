@@ -1,0 +1,73 @@
+name: kar_hesaplayici
+description: "E-Ticaret & Freelancer Kar / Komisyon / Desi Hesaplayıcı - Offline-first micro-utility calculator"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+  # State Management
+  provider: ^6.1.2
+
+  # Persistence (offline-first, senaryo kaydetme) ve geçici dosya yolu (PDF)
+  shared_preferences: ^2.2.2
+  path_provider: ^2.1.3
+
+  # Monetization
+  google_mobile_ads: ^5.1.0
+  in_app_purchase: ^3.2.0
+
+  # Grafik
+  fl_chart: ^0.68.0
+
+  # PDF rapor oluşturma / paylaşma (Pro özellik).
+  # `pdf 3.11.1`, `vector_math`'in hem eski (2.1.2) hem yeni (2.1.4)
+  # sürümleriyle uyumlu, stabil bir sürümdür — `Matrix4.translateByDouble()`
+  # gibi sadece 2.1.4+'ta bulunan metotları ZORUNLU olarak kullanmaz, bu
+  # yüzden aşağıdaki `vector_math` sürümü hangisi olursa olsun sorunsuz çalışır.
+  pdf: 3.11.1
+  printing: ^5.13.1
+  share_plus: ^10.0.0
+
+  # Döviz kuru çekme (opsiyonel online)
+  http: ^1.2.1
+
+  # Format / Intl
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  # Paket adını değiştirmek için kullanılan tek seferlik geliştirme aracı.
+  # Komut: flutter pub run change_app_package_name:main com.enenis.karhesaplayici
+  change_app_package_name: ^1.5.0
+
+# `vector_math` artık `^2.1.4` aralığına sabitlenmiştir (Flutter SDK 3.24+ ve
+# `pdf` paketinin bazı sürümleri, `Matrix4.scaleByDouble()` /
+# `translateByDouble()` gibi yalnızca 2.1.4+'ta bulunan metotları bekliyor;
+# 2.1.2'de bu metotlar yoktu ve "method isn't defined" hatası veriyordu).
+#
+# GitHub Actions ortamında (FlutLab'in aksine) her çalıştırma SIFIRDAN temiz
+# bir runner üzerinde başlar — yani daha önce FlutLab'de yaşadığımız "paylaşılan
+# pub-cache'te bozuk/eksik dosya" sorunu burada prensipte oluşmaz (`flutter pub
+# get` her seferinde `vector_math`'i sıfırdan, bütün olarak indirir). Bu yüzden
+# `^2.1.4` gibi esnek bir aralık kullanmak burada FlutLab'dekinden çok daha
+# güvenlidir.
+dependency_overrides:
+  vector_math: ^2.1.4
+
+# NOT: Eğer ileride projeyi tekrar FlutLab gibi paylaşılan/kalıcı bir pub-cache
+# ortamında derlerseniz ve "No such file or directory" / "part of" hatası
+# geri gelirse, bu artık kod sorunu değildir — o ortamın kendi pub-cache'i
+# bozulmuş demektir (bkz. önceki konuşmalarımızdaki "Reset Environment" / yeni
+# proje oluşturma adımları). GitHub Actions'ta bu senaryonun oluşması beklenmez.
+
+flutter:
+  uses-material-design: true

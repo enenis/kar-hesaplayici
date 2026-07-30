@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Native açılış arka planı: Flutter motoru henüz yüklenmeden önce
+     (uygulama simgesine dokunduğu an) sistem tarafından anında gösterilir.
+     Marka rengiyle (teal) eşleştirilerek "bembeyaz ekran" hissi ortadan
+     kaldırılır; Dart tarafındaki splash_screen.dart devreye girene kadar
+     akıcı bir geçiş sağlanır. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/splash_background" />
+</layer-list>

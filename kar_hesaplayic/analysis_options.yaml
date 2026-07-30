@@ -1,0 +1,12 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    # Proje tercihleri: gerekirse burada özelleştirin.
+    # prefer_single_quotes: true
+
+analyzer:
+  errors:
+    # Bazı prod-placeholder yorumları (YOUR_ADMOB_ID_HERE gibi) info seviyesinde
+    # uyarı üretebilir; bunlar derlemeyi engellemez.
+    todo: ignore

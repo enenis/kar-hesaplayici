@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AppColors.primary (#0D9488) ile birebir eşleşir; Dart tarafındaki
+         splash_screen.dart ile native açılış ekranı arasında renk
+         tutarlılığı sağlar. -->
+    <color name="splash_background">#0D9488</color>
+</resources>
