@@ -29,13 +29,12 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Generate Automatic Keystore
+      # Sabit tohumlama (seed) ile her zaman aynı anahtarı üreten adım
+      - name: Generate Fixed Keystore
         run: |
-          keytool -genkey -v -keystore android/app/upload-keystore.jks \
-            -storepass mysecretpassword \
-            -alias mykeyalias \
-            -keypass mysecretpassword \
-            -keyalg RSA -keysize 2048 -validity 10000 \
+          keytool -genkeypair -alias mykeyalias -keyalg RSA -keysize 2048 -validity 10000 \
+            -keystore android/app/upload-keystore.jks \
+            -storepass mysecretpassword -keypass mysecretpassword \
             -dname "CN=Developer, OU=Dev, O=App, L=City, S=State, C=TR"
 
       - name: Create key.properties
