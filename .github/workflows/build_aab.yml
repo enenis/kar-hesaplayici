@@ -1,0 +1,57 @@
+name: Flutter Build & Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Kodları depodan çek
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Java ortamını kur (Android build için gerekli)
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # 3. Flutter ortamını kur
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      # 4. Bağımlılıkları indir (pub get)
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 5. Kod analizi yap (İsteğe bağlı)
+      - name: Analyze project
+        run: flutter analyze
+
+      # 6. Testleri çalıştır
+      - name: Run tests
+        run: flutter test
+
+      # 7. Android APK Oluştur
+      - name: Build APK
+        run: flutter build apk --release
+
+      # 8. Web Çıktısı Oluştur
+      - name: Build Web
+        run: flutter build web
+
+      # 9. Oluşan APK'yı GitHub Artifacts olarak kaydet (İndirilebilir yapar)
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
