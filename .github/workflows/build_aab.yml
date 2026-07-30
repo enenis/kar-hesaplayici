@@ -35,8 +35,8 @@ jobs:
 
       - name: Create key.properties
         run: |
-          echo "storePassword=mysecretpassword" > android/key.properties
-          echo "keyPassword=mysecretpassword" >> android/key.properties
+          echo "storePassword=12345678" > android/key.properties
+          echo "keyPassword=12345678" >> android/key.properties
           echo "keyAlias=mykeyalias" >> android/key.properties
           echo "storeFile=upload-keystore.jks" >> android/key.properties
 
