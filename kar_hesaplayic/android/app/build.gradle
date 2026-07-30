@@ -43,7 +43,7 @@ android {
 
     defaultConfig {
         // Play Store'a yüklenecek nihai paket adı.
-        applicationId "com.enenis.karhesaplayici"
+        applicationId "com.enenis.karhesaplayici_app"
         minSdk 23
         targetSdk flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
