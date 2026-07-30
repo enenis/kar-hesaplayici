@@ -1,0 +1,43 @@
+name: Flutter Build AAB
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Projeniz alt klasörde olduğu için çalışma dizinini belirtiyoruz
+    defaults:
+      run:
+        working-directory: kar_hesaplayic
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Android App Bundle (AAB)
+        run: flutter build appbundle --release --no-pub
+
+      - name: Upload AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: kar_hesaplayic/build/app/outputs/bundle/release/app-release.aab
