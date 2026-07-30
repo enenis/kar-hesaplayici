@@ -1,4 +1,4 @@
-name: Flutter Build AAB
+name: Flutter Build Signed AAB
 
 on:
   push:
@@ -9,7 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # Projeniz alt klasörde olduğu için çalışma dizinini belirtiyoruz
     defaults:
       run:
         working-directory: kar_hesaplayic
@@ -29,6 +28,22 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+
+      - name: Generate Automatic Keystore
+        run: |
+          keytool -genkey -v -keystore android/app/upload-keystore.jks \
+            -storepass mysecretpassword \
+            -alias mykeyalias \
+            -keypass mysecretpassword \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Developer, OU=Dev, O=App, L=City, S=State, C=TR"
+
+      - name: Create key.properties
+        run: |
+          echo "storePassword=mysecretpassword" > android/key.properties
+          echo "keyPassword=mysecretpassword" >> android/key.properties
+          echo "keyAlias=mykeyalias" >> android/key.properties
+          echo "storeFile=app/upload-keystore.jks" >> android/key.properties
 
       - name: Install dependencies
         run: flutter pub get
